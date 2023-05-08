@@ -1,0 +1,1 @@
+Repository for managing NixOS configuration
