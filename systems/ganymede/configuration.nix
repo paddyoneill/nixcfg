@@ -6,6 +6,10 @@
       ./hardware-configuration.nix
     ];
 
+  # Boot loader configuration
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   # Network configuration
   networking.hostName = "ganymede";
 
