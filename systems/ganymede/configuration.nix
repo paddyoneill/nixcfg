@@ -12,7 +12,9 @@
 
   # Network configuration
   networking.hostName = "ganymede";
-
+  networking.useNetworkd = true;
+  networking.interfaces.eth0.useDHCP = true;
+  
   # Location info
   time.timeZone = "Europe/London";
   location.provider = "geoclue2";
