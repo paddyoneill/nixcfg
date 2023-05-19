@@ -19,6 +19,13 @@
   time.timeZone = "Europe/London";
   location.provider = "geoclue2";
 
+  i18n.defaultLocale = "en_GB.UTF-8";
+
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "uk";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
