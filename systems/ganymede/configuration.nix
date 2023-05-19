@@ -1,20 +1,20 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
     [
-      ./hardware-configuration.nix
+      ./boot.nix
+      ./disks.nix
     ];
-
-  # Boot loader configuration
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # Network configuration
   networking.hostName = "ganymede";
   networking.useNetworkd = true;
-  networking.interfaces.eth0.useDHCP = true;
-  
+
+    # Disable DHCP as a default and only enable on specific interfaces
+  networking.useDHCP = lib.mkDefault false;
+  networking.interfaces.eth0.useDHCP = lib.mkDefault true;
+
   # Location info
   time.timeZone = "Europe/London";
   location.provider = "geoclue2";
