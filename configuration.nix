@@ -28,13 +28,21 @@
 
   users.users.paddy = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "video" ];
   };
 
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
+  };
+
+  hardware.pulseaudio.enable = false;
+
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
   };
 
   # This value determines the NixOS release from which the default
