@@ -19,19 +19,23 @@
   time.timeZone = "Europe/London";
   location.provider = "geoclue2";
 
+  # Use UK locale as default
   i18n.defaultLocale = "en_GB.UTF-8";
 
+  # Set keymap in console to UK layout
   console = {
     font = "Lat2-Terminus16";
     keyMap = "uk";
   };
 
+  # User configuration
+  # TODO: Investigate home-manager for managing user packages / config
   users.users.paddy = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" ];
   };
 
-  # Pipewire
+  # PipeWire
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -40,8 +44,10 @@
     jack.enable = true;
   };
 
+  # Disable PulseAudio as it conflicts with PipeWire
   hardware.pulseaudio.enable = false;
 
+  # Xserver / Gnome
   services.xserver = {
     enable = true;
     displayManager.gdm.enable = true;
