@@ -29,10 +29,23 @@
   };
 
   # User configuration
-  # TODO: Investigate home-manager for managing user packages / config
   users.users.paddy = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" ];
+  };
+
+  # Home Manager
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.paddy = { pkgs, ...}: {
+      home.packages = [
+        pkgs.emacs
+        pkgs.git
+        pkgs.htop
+      ];
+      home.stateVersion = "22.11";
+    };
   };
 
   # PipeWire
