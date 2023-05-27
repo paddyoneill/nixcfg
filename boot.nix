@@ -2,9 +2,9 @@
 { config, lib, ... }:
 
 {
-  boot.initrd.availableKernelModules = [ "sd_mod" "sr_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" usbhid" "sd_mod" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   boot.loader = {
@@ -16,10 +16,4 @@
   };
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  ##########################################################
-  # Using VM for initial testing / configuration creation. #
-  # Remove this when moving to baremetal                   #
-  ##########################################################
-  virtualisation.hypervGuest.enable = true;
 }

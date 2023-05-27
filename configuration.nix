@@ -13,7 +13,7 @@
 
     # Disable DHCP as a default and only enable on specific interfaces
   networking.useDHCP = lib.mkDefault false;
-  networking.interfaces.eth0.useDHCP = lib.mkDefault true;
+  networking.interfaces.enp68s0.useDHCP = lib.mkDefault true;
 
   # Location info
   time.timeZone = "Europe/London";
@@ -63,6 +63,7 @@
   # Xserver / Gnome
   services.xserver = {
     enable = true;
+    videoDrivers = [ "amdgpu" ];
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
