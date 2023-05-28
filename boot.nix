@@ -7,9 +7,6 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  # Use latest kernel version
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   boot.loader = {
     systemd-boot = {
       enable = true;
@@ -18,5 +15,8 @@
   efi.canTouchEfiVariables = true;
   };
 
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware = {
+    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    video.hidpi.enable = lib.mkDefault true;
+  };
 }
