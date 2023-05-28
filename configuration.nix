@@ -41,9 +41,15 @@
     users.paddy = { pkgs, ...}: {
       home.packages = [
         pkgs.emacs
-        pkgs.git
         pkgs.htop
       ];
+
+      programs.git = {
+        enable = true;
+        userName = "Patrick O'Neill";
+        userEmail = "paddy.oneill93@gmail.com";
+      };
+
       home.stateVersion = "22.11";
     };
   };
