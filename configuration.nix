@@ -38,7 +38,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.paddy = { pkgs, ...}: {
+    users.paddy = { pkgs, lib, ... }: {
       home.packages = [
         pkgs.emacs
         pkgs.htop
@@ -48,6 +48,13 @@
         enable = true;
         userName = "Patrick O'Neill";
         userEmail = "paddy.oneill93@gmail.com";
+      };
+
+      dconf.settings = {
+        "org/gnome/desktop/input-sources" = {
+	  sources = [ (lib.hm.gvariant.mkTuple ["xkb" "gb"]) ];
+	  xkb-options = [ "ctrl:nocaps" ];
+	};
       };
 
       home.stateVersion = "22.11";
@@ -68,10 +75,13 @@
 
   # Xserver / Gnome
   services.xserver = {
-    enable = true;
-    videoDrivers = [ "amdgpu" ];
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
+    enable = true;
+    layout = "gb";
+    xkbOptions = "ctrl:nocaps";
+    xkbVariant = "qwerty,";
+    videoDrivers = [ "amdgpu" ];
   };
 
   # This value determines the NixOS release from which the default
