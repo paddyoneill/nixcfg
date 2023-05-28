@@ -16,7 +16,8 @@
   };
 
   hardware = {
-    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    enableRedistributableFirmware = lib.mkDefault true;
+    cpu.amd.updateMicrocode = lib.mkDefault true;
     video.hidpi.enable = lib.mkDefault true;
     opengl = {
       enable = true;
