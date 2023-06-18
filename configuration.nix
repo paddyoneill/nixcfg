@@ -31,7 +31,7 @@
   # User configuration
   users.users.paddy = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" ];
+    extraGroups = [ "wheel" "video" "libvirtd" "qemu-libvirtd" ];
   };
 
   # Home Manager
@@ -83,6 +83,9 @@
     xkbVariant = "qwerty,";
     videoDrivers = [ "amdgpu" ];
   };
+
+  # Enable libvirt
+  virtualisation.libvirtd.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
