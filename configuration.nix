@@ -51,6 +51,8 @@
         userEmail = "paddy.oneill93@gmail.com";
       };
 
+      home.file.".emacs.d/init.el".source = ./user/emacs/init.el;
+
       dconf.settings = {
         "org/gnome/desktop/input-sources" = {
 	  sources = [ (lib.hm.gvariant.mkTuple ["xkb" "gb"]) ];
