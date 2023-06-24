@@ -42,6 +42,7 @@
       home.packages = [
         pkgs.emacs
         pkgs.htop
+        pkgs.nerdfonts
       ];
 
       programs.git = {
@@ -60,6 +61,9 @@
       home.stateVersion = "22.11";
     };
   };
+
+  # Enable font config. Required for fonts installed using HM
+  fonts.fontconfig.enable = lib.mkDefault true;
 
   # PipeWire
   security.rtkit.enable = true;
