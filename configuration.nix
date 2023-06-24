@@ -39,11 +39,16 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users.paddy = { pkgs, lib, ... }: {
-      home.packages = [
-        pkgs.emacs
-        pkgs.htop
-        pkgs.nerdfonts
+      home.packages = with pkgs; [
+        firefox
+        htop
+        nerdfonts
       ];
+
+      programs.emacs = {
+        enable = true;
+        package = pkgs.emacs;
+      };
 
       programs.git = {
         enable = true;
@@ -55,9 +60,9 @@
 
       dconf.settings = {
         "org/gnome/desktop/input-sources" = {
-	  sources = [ (lib.hm.gvariant.mkTuple ["xkb" "gb"]) ];
-	  xkb-options = [ "ctrl:nocaps" ];
-	};
+          sources = [ (lib.hm.gvariant.mkTuple ["xkb" "gb"]) ];
+          xkb-options = [ "ctrl:nocaps" ];
+        };
       };
 
       home.stateVersion = "22.11";
