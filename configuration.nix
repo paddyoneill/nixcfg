@@ -34,6 +34,19 @@
     extraGroups = [ "wheel" "video" "libvirtd" "qemu-libvirtd" ];
   };
 
+  # Improve disk usage by optimising nix store and enabling garbage collection
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
+    };
+  };
+
   # Home Manager
   home-manager = {
     useGlobalPkgs = true;
