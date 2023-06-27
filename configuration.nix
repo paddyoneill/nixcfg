@@ -55,7 +55,8 @@
       home.packages = with pkgs; [
         firefox
         htop
-        nerdfonts
+        (nerdfonts.override { fonts = [ "Hack" ]; })
+        ripgrep
       ];
 
       programs.emacs = {
