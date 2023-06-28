@@ -81,7 +81,8 @@
 
 ;; Rainbow delimiters
 (use-package rainbow-delimiters
-  :hook (emacs-lisp-mode . rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 ;; Which key
 (use-package which-key
