@@ -47,6 +47,11 @@
     };
   };
 
+  # System packages
+  environment.systemPackages = with pkgs; [
+    looking-glass-client
+  ];
+
   # Home Manager
   home-manager = {
     useGlobalPkgs = true;
