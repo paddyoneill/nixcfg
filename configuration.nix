@@ -8,12 +8,21 @@
     ];
 
   # Network configuration
-  networking.hostName = "ganymede";
-  networking.useNetworkd = true;
+  networking = {
+    hostName = "ganymede";
+    useNetworkd = true;
+
+    #Create bridge for libvirt
+    bridges = {
+      br0 = {
+        interfaces = [ "enp70s0" ];
+      };
+    };
 
     # Disable DHCP as a default and only enable on specific interfaces
-  networking.useDHCP = lib.mkDefault false;
-  networking.interfaces.enp68s0.useDHCP = lib.mkDefault true;
+    useDHCP = lib.mkDefault false;
+    interfaces.enp68s0.useDHCP = lib.mkDefault true;
+  };
 
   # Location info
   time.timeZone = "Europe/London";
@@ -31,7 +40,7 @@
   # User configuration
   users.users.paddy = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "libvirtd" "qemu-libvirtd" ];
+    extraGroups = [ "wheel" "video" "kvm" "libvirtd" "qemu-libvirtd" ];
   };
 
   # Improve disk usage by optimising nix store and enabling garbage collection
@@ -57,11 +66,18 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users.paddy = { pkgs, lib, ... }: {
+      home.sessionVariables = {
+        EDITOR = "emacs";
+        VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
+      };
+
       home.packages = with pkgs; [
         firefox
         htop
         (nerdfonts.override { fonts = [ "Hack" ]; })
+        pciutils
         ripgrep
+        usbutils
       ];
 
       programs.emacs = {
@@ -114,8 +130,46 @@
     videoDrivers = [ "amdgpu" ];
   };
 
+  services.udev = {
+    enable = true;
+    extraRules = ''
+      SUBSYSTEM=="kvmfr", OWNER="root", GROUP="kvm", MODE="0660"
+    '';
+  };
+
   # Enable libvirt
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      onBoot = "ignore";
+      onShutdown = "shutdown";
+
+      qemu = {
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [ pkgs.OVMFFull.fd ];
+        };
+
+        # Add /dev/kvmfr0 for to QEMU device acl list for looking glass
+        verbatimConfig = ''
+          cgroup_device_acl = [
+            "/dev/null", "/dev/full", "/dev/zero",
+            "/dev/random", "/dev/urandom",
+            "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+            "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+            "/dev/net/tun", "/dev/vfio/1",
+            "/dev/kvmfr0",
+          ]
+
+          namespaces = []
+        '';
+      };
+    };
+    spiceUSBRedirection.enable = true;
+  };
+
+  services.spice-vdagentd.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
