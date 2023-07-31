@@ -75,16 +75,21 @@
     users.paddy = { pkgs, lib, ... }: {
       home.sessionVariables = {
         EDITOR = "emacs";
+        VAGRANT_DEFAULT_PROVIDER="libvirt";
         VIRSH_DEFAULT_CONNECT_URI = "qemu:///system";
       };
 
       home.packages = with pkgs; [
+        alacritty
+        cider
         firefox
         htop
         (nerdfonts.override { fonts = [ "Hack" ]; })
         pciutils
+        remmina
         ripgrep
         usbutils
+        vagrant
       ];
 
       programs.emacs = {
