@@ -57,9 +57,16 @@
   };
 
   # System packages
-  environment.systemPackages = with pkgs; [
-    looking-glass-client
-  ];
+  environment = {
+    plasma5.excludePackages = with pkgs.libsForQt5; [
+      khelpcenter
+      plasma-browser-integration
+      print-manager
+    ];
+    systemPackages = with pkgs; [
+      looking-glass-client
+    ];
+  };
 
   # Home Manager
   home-manager = {
@@ -93,13 +100,6 @@
 
       home.file.".emacs.d/init.el".source = ./user/emacs/init.el;
 
-      dconf.settings = {
-        "org/gnome/desktop/input-sources" = {
-          sources = [ (lib.hm.gvariant.mkTuple ["xkb" "gb"]) ];
-          xkb-options = [ "ctrl:nocaps" ];
-        };
-      };
-
       home.stateVersion = "22.11";
     };
   };
@@ -119,10 +119,13 @@
   # Disable PulseAudio as it conflicts with PipeWire
   hardware.pulseaudio.enable = false;
 
-  # Xserver / Gnome
+  # Xserver
   services.xserver = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    displayManager = {
+      defaultSession = "plasmawayland";
+      sddm.enable = true;
+    };
+    desktopManager.plasma5.enable = true;
     enable = true;
     layout = "gb";
     xkbOptions = "ctrl:nocaps";
