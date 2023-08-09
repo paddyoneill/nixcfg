@@ -99,6 +99,11 @@
 
       programs.git = {
         enable = true;
+        extraConfig = {
+          init = {
+            defaultBranch = "dev";
+          };
+        };
         userName = "Patrick O'Neill";
         userEmail = "paddy.oneill93@gmail.com";
       };
